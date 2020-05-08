@@ -19,6 +19,7 @@ import logging
 import sqlite3
 import datetime
 from BotIndicator.Indicator import main
+from BotIndicator.Utility import bd, updater
 from telegram.ext import Updater, CommandHandler, Filters, ConversationHandler, CallbackQueryHandler, MessageHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -59,11 +60,10 @@ def __message_query(text, update, buttons):
 
 def start(update, context):
     """Send a message when the command /start is issued."""
-    global con
-    con = sqlite3.connect('C:/Users\AETERNAM124\PycharmProjects\BitBot\DataCript.db')
+    #global bd
     chat_id = update.effective_chat.id
     print(chat_id)
-    cursor = con.cursor()
+    cursor = bd.cursor()
     print("Antes del cursor")
     cursor.execute('SELECT chat_id FROM TB_Users WHERE chat_id = ?', (chat_id,))
     print("despues del select")
@@ -107,7 +107,7 @@ def fechasFin():
     return hora
 
 def subscribirPrueba(update, context):
-    cursor = con.cursor()
+    cursor = bd.cursor()
     print("Entramos a la funcion subscribirse")
     print('El id del chat es: ' + str(update.effective_chat.id))
     print('El idName del cliente es: ' + str(update.effective_chat.username))
@@ -122,7 +122,7 @@ def subscribirPrueba(update, context):
                                                                                  fechaInicioPrueba, fechasFin(), False,
                                                                                  'null', 'null'))
 
-    con.commit()
+    bd.commit()
     context.bot.send_message(chat_id=chat_id, text="Hola! Hemos guardado tus datos! Abora disfruta de 10 días de prueba gratis! :D")
     time.sleep(10)
     return menu_principal(update, context)
@@ -150,11 +150,6 @@ def echo(update, context):
 
 def menu():
     """Start the bot."""
-    # Create the Updater and pass it your bot's token.
-    # Make sure to set use_context=True to use the new context based callbacks
-    # Post version 12 this will no longer be necessary
-    updater = Updater("932025784:AAFlROh16EyA1bXS0amF7MQdE63lBKHPtbY", use_context=True)
-    con = sqlite3.connect('C:/Users\AETERNAM124\PycharmProjects\BitBot\DataCript.db')
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
