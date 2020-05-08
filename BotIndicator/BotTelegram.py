@@ -160,8 +160,8 @@ def menu():
                                                                     pattern=__format_pattern(REGISTRO)),
                                                CallbackQueryHandler(iniciarBot,
                                                                     pattern=__format_pattern(INICIA)),
-                                                CallbackQueryHandler(menu_principal,
-                                                                     pattern=__format_pattern(ABONO))],
+                                               CallbackQueryHandler(menu_principal,
+                                                                    pattern=__format_pattern(ABONO))],
                                            ABONO: [
                                                CallbackQueryHandler(subscribirCuenta,
                                                                     pattern=__format_pattern(METOD))
