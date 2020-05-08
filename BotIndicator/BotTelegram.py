@@ -3,16 +3,12 @@
 # This program is dedicated to the public domain under the CC0 license.
 
 """
-Simple Bot to reply to Telegram messages.
+Bot de mensajería para señales de bitcoin
 
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-
+Se muestra un menú para registrarse gratis y despúes recibir las señales del bot
 Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
+Registra usuarios y envía señales de criptomonedas.
+.
 """
 import time
 import logging
