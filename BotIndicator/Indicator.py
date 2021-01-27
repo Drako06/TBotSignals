@@ -4,7 +4,7 @@ import logging
 import datetime
 import threading
 import pandas as pd
-from ta import momentum
+from ta import momentum, trend
 from ta import volatility
 from concurrent.futures import ThreadPoolExecutor
 from binance.client import Client

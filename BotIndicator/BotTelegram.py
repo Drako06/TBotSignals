@@ -3,7 +3,7 @@
 # This program is dedicated to the public domain under the CC0 license.
 
 """
-Bot de mensajería para señales de bitcoin
+Bot de mensajería para señales de criptomonedas
 
 Se muestra un menú para registrarse gratis y despúes recibir las señales del bot
 Usage:
@@ -15,8 +15,8 @@ import logging
 import sqlite3
 import datetime
 from BotIndicator.Indicator import main
-from BotIndicator.Utility import bd, updater
-from telegram.ext import Updater, CommandHandler, Filters, ConversationHandler, CallbackQueryHandler, MessageHandler
+from BotIndicator.Utility import updater, conn
+from telegram.ext import CommandHandler, Filters, ConversationHandler, CallbackQueryHandler, MessageHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
@@ -56,12 +56,14 @@ def __message_query(text, update, buttons):
 
 def start(update, context):
     """Send a message when the command /start is issued."""
-    #global bd
+    global bd
+    bd = sqlite3.connect(conn.pathDB)
+
     chat_id = update.effective_chat.id
     print(chat_id)
     cursor = bd.cursor()
     print("Antes del cursor")
-    cursor.execute('SELECT chat_id FROM TB_Users WHERE chat_id = ?', (chat_id,))
+    cursor.execute('SELECT chat_id FROM TB_UsersIQS WHERE chat_id = ?', (chat_id,))
     print("despues del select")
     exist = cursor.fetchone()
 
@@ -113,19 +115,19 @@ def subscribirPrueba(update, context):
     nombreId = update.effective_chat.username
     nombreUsuario = update.effective_chat.first_name
     fechaInicioPrueba = datetime.datetime.now()
-    cursor.execute("INSERT INTO TB_Users (chat_id , nombreId, nombreUsuario, fechaInicioPrueba, fechaFinPrueba, abono,"
+    cursor.execute("INSERT INTO TB_UsersIQS (chat_id , nombreId, nombreUsuario, fechaInicioPrueba, fechaFinPrueba, abono,"
                    " fechaInicioAbono, fechaFinAbono) VALUES(?,?,?,?,?,?,?,?)", (chat_id, nombreId, nombreUsuario,
                                                                                  fechaInicioPrueba, fechasFin(), False,
                                                                                  'null', 'null'))
 
     bd.commit()
-    context.bot.send_message(chat_id=chat_id, text="Hola! Hemos guardado tus datos! Abora disfruta de 10 días de prueba gratis! :D")
-    time.sleep(10)
+    context.bot.send_message(chat_id=chat_id, text="Hola! Hemos guardado tus datos! Ahora disfruta de 10 días de prueba gratis! :D")
+    time.sleep(6)
     return menu_principal(update, context)
 
 
 def iniciarBot(update, context):
-    main()
+    #main()
     return INICIA
 def subscribirCuenta(update, context):
     pass
